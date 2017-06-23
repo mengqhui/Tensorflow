@@ -20,6 +20,7 @@ limitations under the License.
 #include <vector>
 
 #include "tensorflow/core/framework/node_def.pb.h"
+#include "tensorflow/core/grappler/op_types.h"
 #include "tensorflow/core/grappler/utils.h"
 
 namespace tensorflow {
@@ -37,7 +38,7 @@ std::vector<const NodeDef*> GrapplerItem::MainVariables() const {
   std::vector<const NodeDef*> fanin = ComputeTransitiveFanin(graph, init_ops);
   std::vector<const NodeDef*> vars;
   for (const NodeDef* node : fanin) {
-    if (node->op() == "Variable" || node->op() == "VariableV2") {
+    if (IsVariable(*node)) {
       vars.push_back(node);
     }
   }
@@ -54,7 +55,7 @@ std::vector<const NodeDef*> ComputeTransitiveFanin(
   std::vector<const NodeDef*> queue;
   for (const string& root : terminal_nodes) {
     const NodeDef* node = name_to_node[NodeName(root)];
-    CHECK(node);
+    CHECK(node) << "Unknown root " << root;
     queue.push_back(node);
   }
 
