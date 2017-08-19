@@ -45,6 +45,7 @@ tf_cc_test(
         "//tensorflow/core:all_kernels",
         "//tensorflow/core:framework",
         "//tensorflow/core:framework_internal",
+        "//tensorflow/core:protos_all_cc",
         "//tensorflow/core:test",
         "//tensorflow/core:test_main",
         "//tensorflow/core:testlib",
@@ -247,6 +248,7 @@ cc_library(
         ":gradients",
         "//tensorflow/core:lib_proto_parsing",
     ],
+    alwayslink = 1,
 )
 
 tf_cc_test(
@@ -272,8 +274,10 @@ cc_library(
     srcs = ["gradients/math_grad.cc"],
     deps = [
         ":cc_ops",
+        ":cc_ops_internal",
         ":grad_op_registry",
     ],
+    alwayslink = 1,
 )
 
 tf_cc_test(
@@ -284,6 +288,7 @@ tf_cc_test(
         ":cc_ops",
         ":grad_op_registry",
         ":grad_testutil",
+        ":gradient_checker",
         ":math_grad",
         ":testutil",
         "//tensorflow/core:lib_internal",
@@ -301,6 +306,7 @@ cc_library(
         ":cc_ops_internal",
         ":grad_op_registry",
     ],
+    alwayslink = 1,
 )
 
 tf_cc_test(
@@ -333,6 +339,7 @@ tf_gen_op_wrappers_cc(
         "io_ops",
         "linalg_ops",
         "logging_ops",
+        "lookup_ops",
         "math_ops",
         "nn_ops",
         "no_op",
@@ -432,6 +439,7 @@ cc_library_with_android_deps(
         "//tensorflow/core:lib",
         "//tensorflow/core:lib_internal",
         "//tensorflow/core:op_gen_lib",
+        "//tensorflow/core:op_gen_overrides_proto_cc",
         "//tensorflow/core:proto_text",
         "//tensorflow/core:protos_all_cc",
     ],
